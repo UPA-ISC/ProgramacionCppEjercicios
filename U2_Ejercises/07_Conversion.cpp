@@ -6,20 +6,28 @@ using namespace std;
 int main(){
     int numero;
     int resultado;
+    string resultadoStr;
 
     cout << "Dame el número a convertir: ";
     cin >> numero;
 
     if(numero > 0){
+        cout << "El resultado es: ";
         while(numero != 0){
-            if (numero %2 == 0)
+            if (numero %2 == 0){
                 resultado = 0;
-            else    
+                resultadoStr += "0";
+            }
+            else{    
                 resultado = 1;
+                resultadoStr += "1";
+            }
+
             cout << resultado; 
             numero /= 2;
         }
-    }
+        cout << "\nString: " << resultadoStr << endl;
+     }
     else if (numero == 0 )
         cout << "0";
     else
