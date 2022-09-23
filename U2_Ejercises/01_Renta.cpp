@@ -36,5 +36,6 @@ int main(){
     cout << "El porcentaje de renta es de " << porcentaje*100 << "%" << endl;
     cout << "El impuesto por su renta es de $" << renta*porcentaje << endl;
 
-    return 0;
-}
+    return 0; 
+// fin amigo
+} 
