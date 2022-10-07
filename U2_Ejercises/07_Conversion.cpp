@@ -16,13 +16,17 @@ int main(){
         while(numero != 0){
             if (numero %2 == 0){
                 resultado = 0;
-                resultadoStr += "0";
+                resultadoStr = "0" + resultadoStr;
             }
             else{    
                 resultado = 1;
-                resultadoStr += "1";
+                resultadoStr = "1" + resultadoStr;
             }
 
+            resultadoStr = (numero%2==0)?"0":"1" + resultadoStr;
+            
+            resultadoStr = to_string(numero%2) + resultadoStr;
+            
             cout << resultado; 
             numero /= 2;
         }

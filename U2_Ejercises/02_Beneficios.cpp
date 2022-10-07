@@ -15,12 +15,15 @@ Escribir un programa que lea la puntuación del usuario e indique su nivel de re
 así como la cantidad de dinero que recibirá el usuario.
 */
 #include <iostream>
+#include <ctype.h>
 
 using namespace std;
 
 int main(){
-    double puntuacion;
-    
+    char puntuacion;
+    int validacion;
+
+
     cout << "Ingrese la puntuación de la persona: ";
     cin >> puntuacion;
 
@@ -31,6 +34,5 @@ int main(){
     else
         cout << "La puntuación ingresada no corresponde a ningún valor permitido" << endl;
     
-
     return 0;
 }
