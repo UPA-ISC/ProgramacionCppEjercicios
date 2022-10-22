@@ -51,7 +51,11 @@ void construirTablero() {
             if (row < 5 && row % 2 == 1)
                 cout << "___";
             else if (row < 5) {
-                cout << " " << tablero[x][y] << " ";
+                if(tablero[x][y] == 'X')
+                    cout << " \033[1;31m" << tablero[x][y] << "\033[0m ";
+                else 
+                    cout << " \033[1;34m" << tablero[x][y] << "\033[0m ";
+                //cout << " " << tablero[x][y] << " ";
                 y++;
             } else
                 cout << "   ";
