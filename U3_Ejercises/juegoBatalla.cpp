@@ -44,13 +44,14 @@ void hacerTiro(int, int, int);
 //gotoxy() function definition
 void gotoxy(int x,int y)    
 {
-    printf("%c[%d;%df",0x1B,y,x);
+    printf("%c[%d;%df",0x1B,y,x);   
 }
  
 
 int main(){
     int valorX, valorY;
     int puntosGanador = 21;
+    
     srand(time(0));
 
     //poner barcos aleatorios para usuario

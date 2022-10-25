@@ -1,5 +1,7 @@
 /*
-    Realice un programa en el que se ingrese un monto de dinero e imprima su desgloce en cantidad de billetes o monedas.
+    Realice un programa en el que se ingrese un monto de 
+    dinero e imprima su desgloce en cantidad de billetes 
+    o monedas.
 */
 
 #include <iostream>
@@ -10,14 +12,12 @@ void obtenerCambio(int);
 void obtenerMonedas(int);
 void imprimirCambio(string);
 
-
 int quinientos = 0, doscientos = 0, cien = 0;
 int cincuenta = 0, veinte = 0;
 int diez = 0, cinco = 0, uno = 0;
 
 int main(){
     int dinero;
-   
 
     cout << "Dame la cantidad de dinero: ";
     cin >> dinero;
