@@ -26,7 +26,7 @@ int main(){
     int jugada;
     bool jugadaCorrecta = false;
     bool esGanador = false;
-   
+    construirTablero();
     while (turnoJugador < 100 && esGanador == false) {
         do {
             cout << "Haz tu jugada seleccionando la columna: ";
