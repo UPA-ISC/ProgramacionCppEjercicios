@@ -27,40 +27,45 @@ void cargarVector(int v[], int tamano){
         cin >> v[elemento];
     }
 }
-
 void imprimirVector(int v[], int tamano){
     for (int elemento = 0; elemento < tamano; elemento++)
     {
         cout << v[elemento] << " ";
     }
-    cout << endl;
-    
+    cout << endl;  
+}
+
+void cargarVectorChar(char v[], int tamano){
+    for (int elemento = 0; elemento < tamano; elemento++)
+    {
+        cout << "Dame el valor " << elemento << ": ";
+        cin >> v[elemento];
+    }
+}
+void imprimirVectorChar(char v[], int tamano){
+    for (int elemento = 0; elemento < tamano; elemento++)
+    {
+        cout << v[elemento] << " ";
+    }
+    cout << endl;  
 }
 
 
 int main(){
-    int numeros[100];
-   /* gotoxy(10,10);
-    cout << "Hola";
-    gotoxy(0,3);
-    cout << "Regreso" << endl;*/
-    float matriz[4][4] ={8.2};
-    for (int i = 0; i < 4; i++)
-    {
-        for (int j = 0; j < 4; j++)
-        {
-            cout << matriz[i][j] << " ";
-        }
-        cout << endl;
-        
-    }
-    
+    int numeros[100] = {0};
+    char c[6];
+    cargarVector(numeros,6);
+    imprimirVector(numeros,6);
 
-
+    cargarVectorChar(c,6);
+    imprimirVectorChar(c,6);
+    cout << endl; 
     getchar();
-    //cargarVector(numeros, 5);
-    //calcularFuncion(numeros, )
-    //imprimirVector(numeros, 10);
+
 
     return 0;
 }
+
+
+
+
