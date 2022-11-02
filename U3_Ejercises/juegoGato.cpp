@@ -14,12 +14,12 @@ void construirTablero();
 char obtenerJugada(string);
 bool revisarJugadasPosibles(int, int,string);
 bool revisarJugada(int, string);
-void colocarJugada(int, string);
+void colocarJugada(int, string, string);
 bool revisarGanador(string);
 void jugarGato(string);
 int obtenerMejorJugada();
 void crearTableroPrueba();
-int existeCasillaGanadora(string);
+int existeCasillaGanadora(string, string);
 
 char tablero[3][3] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
 char tableroPrueba[3][3];
@@ -56,6 +56,8 @@ void jugarGato(string contrincante){
     bool ganador = false;
     bool jugadaCorrecta;
     string jugador;
+    string jugadorGanador = "No_ganador";
+
     construirTablero();
     while (turnoJugador < 9 && ganador == false) {
         if(turnoJugador%2 == 0)
@@ -73,10 +75,12 @@ void jugarGato(string contrincante){
         }
 
         if (jugadaCorrecta == true) {
-            colocarJugada(jugada, HUMANO);
+            colocarJugada(jugada, HUMANO, HUMANO);
             ganador = revisarGanador(HUMANO);
             if (ganador) {
-                cout << "El ganador es el judador " << turnoJugador % 2 + 1
+                system("clear");
+                construirTablero();
+                cout << "El ganador es el jugador " << turnoJugador % 2 + 1
                      << endl;
             }
             turnoJugador++;
@@ -84,7 +88,9 @@ void jugarGato(string contrincante){
             construirTablero();
         }
         //cout << endl;
+        
     }
+    
 }
 
 void construirTablero() {
@@ -171,16 +177,20 @@ bool revisarJugada(int jugada, string jugador) {
     return jugadaPosible;
 }
 
-void colocarJugada(int jugada, string jugador) {
+void colocarJugada(int jugada, string jugador, string tipoFicha) {
     char valor;
     int renglon, columna;
     if (jugador == HUMANO) {
-        if (turnoJugador % 2 == 1)
-            valor = 'X';
+        if (turnoJugador % 2 == 0)
+            valor = 'X'; //Jugador 1
         else
-            valor = 'O';
-    } else
-        valor = 'O';
+            valor = 'O'; //Jugador 2
+    } else{
+        if (tipoFicha == HUMANO)
+            valor = 'X'; //Jugador Humano
+        else
+            valor = 'O'; //Jugador Maquina
+    }
 
     if (jugada == 1) {
         renglon = 0;
@@ -258,7 +268,7 @@ bool revisarGanador(string jugador) {
             tableroPrueba[2][2] == tableroPrueba[2][0])
             existeGanador = true;
         else if (tableroPrueba[0][0] != ' ' && tableroPrueba[1][0] == tableroPrueba[0][0] &&
-            tableroPrueba[2][1] == tableroPrueba[0][0])
+            tableroPrueba[2][0] == tableroPrueba[0][0])
             existeGanador = true;
         else if (tableroPrueba[0][1] != ' ' && tableroPrueba[1][1] == tableroPrueba[0][1] &&
             tableroPrueba[2][1] == tableroPrueba[0][1])
@@ -289,26 +299,25 @@ int obtenerMejorJugada(){
     int jugada;
     
     //Revisar si PC puede ganar
-    jugada = existeCasillaGanadora(MAQUINA);
+    jugada = existeCasillaGanadora(MAQUINA, MAQUINA);
     if (jugada != -1)
         return jugada;
     //Revisar si humano puede ganar
-    jugada = existeCasillaGanadora(MAQUINA);
+    jugada = existeCasillaGanadora(MAQUINA, HUMANO);
     if (jugada != -1)
         return jugada;
     return 1 + rand() % 9;
 }
 
-int existeCasillaGanadora(string jugador){
+int existeCasillaGanadora(string jugador, string tipoFicha){
     bool jugadaCorrecta = false;
 
-    
     for (int jugada = 1; jugada <= 9; jugada++)
     {   
         crearTableroPrueba();
         jugadaCorrecta = revisarJugada(jugada, MAQUINA);
         if(jugadaCorrecta == true){
-            colocarJugada(jugada, MAQUINA);
+            colocarJugada(jugada, MAQUINA, tipoFicha);
             if(revisarGanador(MAQUINA) == true)
                 return jugada;
         }
