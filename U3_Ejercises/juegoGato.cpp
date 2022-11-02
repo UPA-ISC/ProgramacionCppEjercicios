@@ -10,7 +10,13 @@ using namespace std;
 const string MAQUINA = "PC";
 const string HUMANO = "HUMANO";
 
-void construirTablero();
+void gotoxy(int x,int y)    
+{
+    //Coloca el cursor en la posicion (x,y)
+    cout << "\033["<< y<< ";" << x << "f";
+}
+
+void construirTablero(int,int);
 char obtenerJugada(string);
 bool revisarJugadasPosibles(int, int,string);
 bool revisarJugada(int, string);
@@ -23,7 +29,6 @@ int existeCasillaGanadora(string, string);
 
 char tablero[3][3] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
 char tableroPrueba[3][3];
-string opciones = "abcdefghi";
 int turnoJugador = 0;
 
 
@@ -46,7 +51,7 @@ int main() {
 
 
     } while (seleccion != 1 && seleccion != 2);
-
+    system("clear");
     jugarGato(tipoContrincante);
     return 0;
 }
@@ -58,7 +63,7 @@ void jugarGato(string contrincante){
     string jugador;
     string jugadorGanador = "No_ganador";
 
-    construirTablero();
+    construirTablero(1,1);
     while (turnoJugador < 9 && ganador == false) {
         if(turnoJugador%2 == 0)
             jugador = HUMANO;
@@ -79,13 +84,13 @@ void jugarGato(string contrincante){
             ganador = revisarGanador(HUMANO);
             if (ganador) {
                 system("clear");
-                construirTablero();
+                construirTablero(1,1);
                 cout << "El ganador es el jugador " << turnoJugador % 2 + 1
                      << endl;
             }
             turnoJugador++;
             system("clear");
-            construirTablero();
+            construirTablero(1,1);
         }
         //cout << endl;
         
@@ -93,9 +98,10 @@ void jugarGato(string contrincante){
     
 }
 
-void construirTablero() {
+void construirTablero(int xD, int yD) {
     int x = 0, y = 0;
     for (int row = 0; row < 6; row++) {
+        gotoxy(xD,yD++);
         for (int col = 0; col < 3; col++) {
             if (row < 5 && row % 2 == 1)
                 cout << "___";
@@ -106,15 +112,12 @@ void construirTablero() {
                     cout << " \033[1;34m" << tablero[x][y] << "\033[0m ";
                 else 
                     cout << " \033[0;37m" << tablero[x][y] << "\033[0m ";
-                //cout << " " << tablero[x][y] << " ";
                 y++;
             } else
                 cout << "   ";
-
             if (col < 2) cout << "|";
         }
         cout << endl;
-
         y = 0;
         if (row % 2 == 1) x++;
     }
