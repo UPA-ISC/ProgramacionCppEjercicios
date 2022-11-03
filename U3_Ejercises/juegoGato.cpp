@@ -26,6 +26,7 @@ void jugarGato(string);
 int obtenerMejorJugada();
 void crearTableroPrueba();
 int existeCasillaGanadora(string, string);
+void colocarMensaje(int);
 
 char tablero[3][3] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
 char tableroPrueba[3][3];
@@ -35,7 +36,7 @@ int turnoJugador = 0;
 int main() {
     string tipoContrincante;
     int seleccion;
-
+    construirTablero(1,1);
     do {
         cout << "Selecciona si jugarás contra la máquina o un humano: " << endl;
         cout << "1) Máquina" << endl;
@@ -74,27 +75,27 @@ void jugarGato(string contrincante){
         jugada = obtenerJugada(jugador);
         jugadaCorrecta = revisarJugada(jugada, HUMANO);
         if (jugador == HUMANO) {
-            (jugadaCorrecta == true) ? cout << "Jugada permitida"
-                                     : cout << "Jugada no permitida";
+            (jugadaCorrecta == true) ? colocarMensaje(1)
+                                     : colocarMensaje(2);
             cout << endl;
         }
 
         if (jugadaCorrecta == true) {
             colocarJugada(jugada, HUMANO, HUMANO);
             ganador = revisarGanador(HUMANO);
+            system("clear");
+            construirTablero(1,1);
             if (ganador) {
                 system("clear");
                 construirTablero(1,1);
-                cout << "El ganador es el jugador " << turnoJugador % 2 + 1
-                     << endl;
+                colocarMensaje(turnoJugador % 2 + 1);
             }
             turnoJugador++;
-            system("clear");
-            construirTablero(1,1);
         }
         //cout << endl;
-        
     }
+    if (ganador==false)
+        colocarMensaje(3);
     
 }
 
@@ -328,3 +329,14 @@ int existeCasillaGanadora(string jugador, string tipoFicha){
     return -1;
 }
 
+void colocarMensaje(int tipoMensaje){
+    gotoxy(18,2);
+    if (tipoMensaje == 1)
+        cout << "EL JUGADOR 1 ES EL GANADOR";
+    else if (tipoMensaje == 2)
+        cout << "EL JUGADOR 2 ES EL GANADOR";
+    else if (tipoMensaje == 3)
+        cout << "JUEGO EMPATADO";
+    cout << endl;    
+    gotoxy(0,8);
+}
