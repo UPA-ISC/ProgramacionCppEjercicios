@@ -3,32 +3,31 @@ Autor: Luis Ernesto Anaya Tiscareño
 Fecha: 21/10/22
 Descripcion: Juego de batalla naval
 */
+#include <stdio.h>
+
 #include <iostream>
 
-#include<stdio.h>
-
-
 using namespace std;
-char tablero[10][10] = {{' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-                        {' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-                        {' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-                        {' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-                        {' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-                        {' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-                        {' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-                        {' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-                        {' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-                        {' ',' ',' ',' ',' ',' ',' ',' ',' ',' '}};
-char tableroPC[10][10] = {{' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-                        {' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-                        {' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-                        {' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-                        {' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-                        {' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-                        {' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-                        {' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-                        {' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-                        {' ',' ',' ',' ',' ',' ',' ',' ',' ',' '}};
+char tablero[10][10] = {{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}};
+char tableroPC[10][10] = {{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                          {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                          {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                          {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                          {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                          {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                          {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                          {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                          {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                          {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}};
 int turnoJugador = 1;
 int puntosJugador, puntosMaquina;
 // construirTablero(0: jugador, 1: maquina)
@@ -40,34 +39,34 @@ bool revisarColocacion(int, int, int, int);
 void colocarBarcos(int, int, int, int, int);
 void hacerTiro(int, int, int);
 
- 
-//gotoxy() function definition
-void gotoxy(int x,int y)    
-{
-    printf("%c[%d;%df",0x1B,y,x);   
-}
- 
+// gotoxy() function definition
+void gotoxy(int x, int y) { printf("%c[%d;%df", 0x1B, y, x); }
 
-int main(){
+int main() {
     int valorX, valorY;
     int puntosGanador = 21;
-    
+
     srand(time(0));
 
-    //poner barcos aleatorios para usuario
+    // poner barcos aleatorios para usuario
     pedirBarcos(1, 0);
 
-    //poner barcos aleatorios para maquina
+    // poner barcos aleatorios para maquina
     pedirBarcos(1, 1);
-
+    
+    //Limpio pantalla
     system("clear");
-        cout << "TABLERO JUGADOR" << endl;
-        construirTablero(0);
-        cout << endl;
-        cout << "TABLERO MAQUINA" << endl;
-        construirTablero(1);
 
-    while (turnoJugador < 100 && puntosJugador < puntosGanador && puntosMaquina <puntosGanador) {
+    cout << "TABLERO JUGADOR" << endl;
+    construirTablero(0);
+    cout << endl;
+
+    //TODO: Imprimir el tablero de tiradas del jugador sin mostrar los barcos de la maquina
+    cout << "TABLERO MAQUINA" << endl;
+    construirTablero(1);
+
+    while (turnoJugador < 100 && puntosJugador < puntosGanador &&
+           puntosMaquina < puntosGanador) {
         if (turnoJugador % 2 == 1) {
             cout << "Haz tu tiro: ";
             cin >> valorX >> valorY;
@@ -85,28 +84,24 @@ int main(){
             cout << "HAS GANADO" << endl;
         else if (puntosMaquina == puntosGanador)
             cout << "HAS PERDIDO" << endl;
-        else    
+        else
             cout << "SIGUE JUGANDO" << endl;
         turnoJugador++;
     }
-
-    
-   //gotoxy(0,20);
-   //cout << "Hola"<<endl;
     return 0;
 }
 
-void construirTablero(int jugador){
+void construirTablero(int jugador) {
     int x = 0, y = 0;
-    for (int row = 0; row < 22; row++)
-    {
-        for (int col = 0; col < 11; col++)
-        {
+    for (int row = 0; row < 22; row++) {
+        for (int col = 0; col < 11; col++) {
             if (row == 0 && col > 0)
-                (col>9)?cout << " " << col << "":cout << " " << col << " ";
-            else if (row %2 == 0 && col == 0 && row > 1)
-                (row/2>9)?cout << " " << row/2 << "":cout << " " << row/2 << " ";               
-            else if(row < 22 && row%2 == 1)
+                (col > 9) ? cout << " " << col << ""
+                          : cout << " " << col << " ";
+            else if (row % 2 == 0 && col == 0 && row > 1)
+                (row / 2 > 9) ? cout << " " << row / 2 << ""
+                              : cout << " " << row / 2 << " ";
+            else if (row < 22 && row % 2 == 1)
                 cout << "___";
             else if (row < 21 && col > 0 && row > 1) {
                 if (jugador == 0) {
@@ -116,7 +111,7 @@ void construirTablero(int jugador){
                         cout << " \033[1;31m" << tablero[x][y] << "\033[0m ";
                     else if (tablero[x][y] == 'o')
                         cout << " \033[1;34m" << tablero[x][y] << "\033[0m ";
-                    else 
+                    else
                         cout << "   ";
                     y++;
                 } else {
@@ -126,7 +121,7 @@ void construirTablero(int jugador){
                         cout << " \033[1;31m" << tableroPC[x][y] << "\033[0m ";
                     else if (tableroPC[x][y] == 'o')
                         cout << " \033[1;34m" << tableroPC[x][y] << "\033[0m ";
-                    else 
+                    else
                         cout << "   ";
                     y++;
                 }
@@ -138,15 +133,14 @@ void construirTablero(int jugador){
         y = 0;
         if (row % 2 == 1 && row > 1) x++;
     }
-    
 }
 
-void pedirBarcos(int aleatorio, int jugador){
+void pedirBarcos(int aleatorio, int jugador) {
     int posX, posY, direccion;
     int newX, newY;
     bool barcoCorrecto = false;
-    int cantidadBarcos[4] = {2,3,3,1};
-     srand(time(0));
+    int cantidadBarcos[4] = {2, 3, 3, 1};
+    srand(time(0));
     for (int barco = 1; barco <= 4; barco++) {
         do {
             if (aleatorio == 0) {
@@ -171,8 +165,10 @@ void pedirBarcos(int aleatorio, int jugador){
                 colocarBarcos(posX, posY, direccion, barco, jugador);
                 cantidadBarcos[barco - 1]--;
             } else
-                (aleatorio==0)?cout << "NO ES POSIBLE COLOCAR EL BARCO" << endl:cout<<"";
-        } while (barcoCorrecto == false || cantidadBarcos[barco-1] > 0);
+                (aleatorio == 0)
+                    ? cout << "NO ES POSIBLE COLOCAR EL BARCO" << endl
+                    : cout << "";
+        } while (barcoCorrecto == false || cantidadBarcos[barco - 1] > 0);
     }
 }
 
@@ -190,16 +186,18 @@ bool revisarColocacion(int x, int y, int dir, int longitud) {
             newY -= espacio;
         else if (dir == 4)
             newX -= espacio;
-        if (newX < 0 || newX > 9 || newY < 0 || newY > 9 || tablero[newX][newY] !=' '){
+        if (newX < 0 || newX > 9 || newY < 0 || newY > 9 ||
+            tablero[newX][newY] != ' ') {
             esPosible = false;
-            break;}
-        else
+            break;
+        } else
             esPosible = true;
     }
     return esPosible;
 }
 
-void colocarBarcos(int posX, int posY, int direccion, int longitud, int jugador) {
+void colocarBarcos(int posX, int posY, int direccion, int longitud,
+                   int jugador) {
     int newX, newY;
 
     for (int espacio = 0; espacio < longitud; espacio++) {
@@ -215,21 +213,20 @@ void colocarBarcos(int posX, int posY, int direccion, int longitud, int jugador)
             newX -= espacio;
         if (jugador == 0)
             tablero[newX][newY] = 'b';
-        else    
+        else
             tableroPC[newX][newY] = 'b';
     }
 }
 
-void hacerTiro(int vX, int vY, int jugador){
-    int x = vX-1;
-    int y = vY -1;
+void hacerTiro(int vX, int vY, int jugador) {
+    int x = vX - 1;
+    int y = vY - 1;
 
     if (jugador == 0) {
-        if (tablero[x][y] == 'b'){
+        if (tablero[x][y] == 'b') {
             tablero[x][y] = 'x';
             puntosMaquina++;
-        }
-        else if (tablero[x][y] == ' ')
+        } else if (tablero[x][y] == ' ')
             tablero[x][y] = 'o';
         else if (tablero[x][y] == 'x')
             tablero[x][y] = 'x';
@@ -238,11 +235,10 @@ void hacerTiro(int vX, int vY, int jugador){
         else
             cout << "Jugada existente" << endl;
     } else {
-        if (tableroPC[x][y] == 'b'){
+        if (tableroPC[x][y] == 'b') {
             puntosJugador++;
             tableroPC[x][y] = 'x';
-        }
-        else if (tableroPC[x][y] == ' ')
+        } else if (tableroPC[x][y] == ' ')
             tableroPC[x][y] = 'o';
         else if (tableroPC[x][y] == 'x')
             tableroPC[x][y] = 'x';

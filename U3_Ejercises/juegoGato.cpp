@@ -9,34 +9,33 @@ using namespace std;
 
 const string MAQUINA = "PC";
 const string HUMANO = "HUMANO";
+const string TABLERO_REAL = "HUMANO";
+const string TABLERO_MAQUINA = "PC";
 
-void gotoxy(int x,int y)    
-{
-    //Coloca el cursor en la posicion (x,y)
-    cout << "\033["<< y<< ";" << x << "f";
+void gotoxy(int x, int y) {
+    // Coloca el cursor en la posicion (x,y)
+    cout << "\033[" << y << ";" << x << "f";
 }
 
-void construirTablero(int,int);
+void construirTablero(int, int);
 char obtenerJugada(string);
-bool revisarJugadasPosibles(int, int,string);
+bool revisarJugadasPosibles(int, int, string);
 bool revisarJugada(int, string);
 void colocarJugada(int, string, string);
 bool revisarGanador(string);
 void jugarGato(string);
 int obtenerMejorJugada();
 void crearTableroPrueba();
-int existeCasillaGanadora(string, string);
+int existeCasillaGanadora(string);
 void colocarMensaje(int);
 
 char tablero[3][3] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
 char tableroPrueba[3][3];
 int turnoJugador = 0;
 
-
 int main() {
     string tipoContrincante;
     int seleccion;
-    construirTablero(1,1);
     do {
         cout << "Selecciona si jugarás contra la máquina o un humano: " << endl;
         cout << "1) Máquina" << endl;
@@ -50,68 +49,58 @@ int main() {
         else
             cout << "Selección incorrecta, intenta nuevamente" << endl;
 
-
     } while (seleccion != 1 && seleccion != 2);
     system("clear");
     jugarGato(tipoContrincante);
     return 0;
 }
 
-void jugarGato(string contrincante){
+void jugarGato(string contrincante) {
     int jugada;
     bool ganador = false;
     bool jugadaCorrecta;
     string jugador;
     string jugadorGanador = "No_ganador";
 
-    construirTablero(1,1);
+    construirTablero(1, 1);
     while (turnoJugador < 9 && ganador == false) {
-        if(turnoJugador%2 == 0)
+        if (turnoJugador % 2 == 0)
             jugador = HUMANO;
-        else{
-            jugador = (contrincante == HUMANO)?HUMANO:MAQUINA;
+        else {
+            jugador = (contrincante == HUMANO) ? HUMANO : MAQUINA;
         }
 
         jugada = obtenerJugada(jugador);
-        jugadaCorrecta = revisarJugada(jugada, HUMANO);
-        if (jugador == HUMANO) {
-            (jugadaCorrecta == true) ? colocarMensaje(1)
-                                     : colocarMensaje(2);
-            cout << endl;
-        }
-
+        //Reviso la jugada en tablero real
+        jugadaCorrecta = revisarJugada(jugada, TABLERO_REAL);
+       
         if (jugadaCorrecta == true) {
-            colocarJugada(jugada, HUMANO, HUMANO);
+            colocarJugada(jugada, HUMANO, TABLERO_REAL);
             ganador = revisarGanador(HUMANO);
             system("clear");
-            construirTablero(1,1);
+            construirTablero(1, 1);
             if (ganador) {
-                system("clear");
-                construirTablero(1,1);
                 colocarMensaje(turnoJugador % 2 + 1);
             }
             turnoJugador++;
         }
-        //cout << endl;
     }
-    if (ganador==false)
-        colocarMensaje(3);
-    
+    if (ganador == false) colocarMensaje(3);
 }
 
 void construirTablero(int xD, int yD) {
     int x = 0, y = 0;
     for (int row = 0; row < 6; row++) {
-        gotoxy(xD,yD++);
+        gotoxy(xD, yD++);
         for (int col = 0; col < 3; col++) {
             if (row < 5 && row % 2 == 1)
                 cout << "___";
             else if (row < 5) {
-                if(tablero[x][y] == 'X')
+                if (tablero[x][y] == 'X')
                     cout << " \033[1;31m" << tablero[x][y] << "\033[0m ";
-                else if(tablero[x][y] == 'O')
+                else if (tablero[x][y] == 'O')
                     cout << " \033[1;34m" << tablero[x][y] << "\033[0m ";
-                else 
+                else
                     cout << " \033[0;37m" << tablero[x][y] << "\033[0m ";
                 y++;
             } else
@@ -186,14 +175,14 @@ void colocarJugada(int jugada, string jugador, string tipoFicha) {
     int renglon, columna;
     if (jugador == HUMANO) {
         if (turnoJugador % 2 == 0)
-            valor = 'X'; //Jugador 1
+            valor = 'X';  // Jugador 1
         else
-            valor = 'O'; //Jugador 2
-    } else{
+            valor = 'O';  // Jugador 2
+    } else {
         if (tipoFicha == HUMANO)
-            valor = 'X'; //Jugador Humano
+            valor = 'X';  // Jugador Humano
         else
-            valor = 'O'; //Jugador Maquina
+            valor = 'O';  // Jugador Maquina
     }
 
     if (jugada == 1) {
@@ -235,56 +224,72 @@ bool revisarGanador(string jugador) {
     bool existeGanador = false;
 
     if (jugador == HUMANO) {
-        if (tablero[0][0] != ' ' && tablero[0][1] == tablero[0][0] &&
+        if (tablero[0][0] != ' ' && 
+            tablero[0][1] == tablero[0][0] &&
             tablero[0][2] == tablero[0][0])
             existeGanador = true;
-        else if (tablero[1][0] != ' ' && tablero[1][1] == tablero[1][0] &&
-            tablero[1][2] == tablero[1][0])
+        else if (tablero[1][0] != ' ' && 
+                 tablero[1][1] == tablero[1][0] &&
+                 tablero[1][2] == tablero[1][0])
             existeGanador = true;
-        else if (tablero[2][0] != ' ' && tablero[2][1] == tablero[2][0] &&
-            tablero[2][2] == tablero[2][0])
+        else if (tablero[2][0] != ' ' && 
+                 tablero[2][1] == tablero[2][0] &&
+                 tablero[2][2] == tablero[2][0])
             existeGanador = true;
-        else if (tablero[0][0] != ' ' && tablero[1][0] == tablero[0][0] &&
-            tablero[2][0] == tablero[0][0])
+        else if (tablero[0][0] != ' ' && 
+                 tablero[1][0] == tablero[0][0] &&
+                 tablero[2][0] == tablero[0][0])
             existeGanador = true;
-        else if (tablero[0][1] != ' ' && tablero[1][1] == tablero[0][1] &&
-            tablero[2][1] == tablero[0][1])
+        else if (tablero[0][1] != ' ' && 
+                 tablero[1][1] == tablero[0][1] &&
+                 tablero[2][1] == tablero[0][1])
             existeGanador = true;
-        else if (tablero[0][2] != ' ' && tablero[1][2] == tablero[0][2] &&
-            tablero[2][2] == tablero[0][2])
+        else if (tablero[0][2] != ' ' && 
+                 tablero[1][2] == tablero[0][2] &&
+                 tablero[2][2] == tablero[0][2])
             existeGanador = true;
-        else if (tablero[0][0] != ' ' && tablero[1][1] == tablero[0][0] &&
-            tablero[2][2] == tablero[0][0])
+        else if (tablero[0][0] != ' ' && 
+                 tablero[1][1] == tablero[0][0] &&
+                 tablero[2][2] == tablero[0][0])
             existeGanador = true;
-        else if (tablero[0][2] != ' ' && tablero[1][1] == tablero[0][2] &&
-            tablero[2][0] == tablero[0][2])
+        else if (tablero[0][2] != ' ' && 
+                 tablero[1][1] == tablero[0][2] &&
+                 tablero[2][0] == tablero[0][2])
             existeGanador = true;
         else
             existeGanador = false;
-    }else{
-         if (tableroPrueba[0][0] != ' ' && tableroPrueba[0][1] == tableroPrueba[0][0] &&
+    } else {
+        if (tableroPrueba[0][0] != ' ' &&
+            tableroPrueba[0][1] == tableroPrueba[0][0] &&
             tableroPrueba[0][2] == tableroPrueba[0][0])
             existeGanador = true;
-        else if (tableroPrueba[1][0] != ' ' && tableroPrueba[1][1] == tableroPrueba[1][0] &&
-            tableroPrueba[1][2] == tableroPrueba[1][0])
+        else if (tableroPrueba[1][0] != ' ' &&
+                 tableroPrueba[1][1] == tableroPrueba[1][0] &&
+                 tableroPrueba[1][2] == tableroPrueba[1][0])
             existeGanador = true;
-        else if (tableroPrueba[2][0] != ' ' && tableroPrueba[2][1] == tableroPrueba[2][0] &&
-            tableroPrueba[2][2] == tableroPrueba[2][0])
+        else if (tableroPrueba[2][0] != ' ' &&
+                 tableroPrueba[2][1] == tableroPrueba[2][0] &&
+                 tableroPrueba[2][2] == tableroPrueba[2][0])
             existeGanador = true;
-        else if (tableroPrueba[0][0] != ' ' && tableroPrueba[1][0] == tableroPrueba[0][0] &&
-            tableroPrueba[2][0] == tableroPrueba[0][0])
+        else if (tableroPrueba[0][0] != ' ' &&
+                 tableroPrueba[1][0] == tableroPrueba[0][0] &&
+                 tableroPrueba[2][0] == tableroPrueba[0][0])
             existeGanador = true;
-        else if (tableroPrueba[0][1] != ' ' && tableroPrueba[1][1] == tableroPrueba[0][1] &&
-            tableroPrueba[2][1] == tableroPrueba[0][1])
+        else if (tableroPrueba[0][1] != ' ' &&
+                 tableroPrueba[1][1] == tableroPrueba[0][1] &&
+                 tableroPrueba[2][1] == tableroPrueba[0][1])
             existeGanador = true;
-        else if (tableroPrueba[0][2] != ' ' && tableroPrueba[1][2] == tableroPrueba[0][2] &&
-            tableroPrueba[2][2] == tableroPrueba[0][2])
+        else if (tableroPrueba[0][2] != ' ' &&
+                 tableroPrueba[1][2] == tableroPrueba[0][2] &&
+                 tableroPrueba[2][2] == tableroPrueba[0][2])
             existeGanador = true;
-        else if (tableroPrueba[0][0] != ' ' && tableroPrueba[1][1] == tableroPrueba[0][0] &&
-            tableroPrueba[2][2] == tableroPrueba[0][0])
+        else if (tableroPrueba[0][0] != ' ' &&
+                 tableroPrueba[1][1] == tableroPrueba[0][0] &&
+                 tableroPrueba[2][2] == tableroPrueba[0][0])
             existeGanador = true;
-        else if (tableroPrueba[0][2] != ' ' && tableroPrueba[1][1] == tableroPrueba[0][2] &&
-            tableroPrueba[2][0] == tableroPrueba[0][2])
+        else if (tableroPrueba[0][2] != ' ' &&
+                 tableroPrueba[1][1] == tableroPrueba[0][2] &&
+                 tableroPrueba[2][0] == tableroPrueba[0][2])
             existeGanador = true;
         else
             existeGanador = false;
@@ -292,51 +297,55 @@ bool revisarGanador(string jugador) {
     return existeGanador;
 }
 
-void crearTableroPrueba(){
+void crearTableroPrueba() {
     for (int row = 0; row < 3; row++)
         for (int col = 0; col < 3; col++)
-            tableroPrueba[row][col] = tablero[row][col];    
+            tableroPrueba[row][col] = tablero[row][col];
 }
 
-int obtenerMejorJugada(){
+int obtenerMejorJugada() {
     srand(time(0));
     int jugada;
-    
-    //Revisar si PC puede ganar
-    jugada = existeCasillaGanadora(MAQUINA, MAQUINA);
-    if (jugada != -1)
-        return jugada;
-    //Revisar si humano puede ganar
-    jugada = existeCasillaGanadora(MAQUINA, HUMANO);
-    if (jugada != -1)
-        return jugada;
+
+    // Revisar si PC puede ganar
+    jugada = existeCasillaGanadora( MAQUINA);
+    if (jugada != -1) return jugada;
+    // Revisar si humano puede ganar
+    jugada = existeCasillaGanadora( HUMANO);
+    if (jugada != -1) return jugada;
     return 1 + rand() % 9;
 }
 
-int existeCasillaGanadora(string jugador, string tipoFicha){
+int existeCasillaGanadora(string tipoFicha) {
+    /*Revisa si existe una posible casilla ganadora
+    Param: tipoFicha: X, O
+    Retorna la mejor jugada en entero
+    */
     bool jugadaCorrecta = false;
-
-    for (int jugada = 1; jugada <= 9; jugada++)
-    {   
+    // Vamos a probar todas las jugadas
+    for (int jugada = 1; jugada <= 9; jugada++) {
+        // Se crea una copia del tablero de juego
         crearTableroPrueba();
-        jugadaCorrecta = revisarJugada(jugada, MAQUINA);
-        if(jugadaCorrecta == true){
-            colocarJugada(jugada, MAQUINA, tipoFicha);
-            if(revisarGanador(MAQUINA) == true)
+        jugadaCorrecta = revisarJugada(jugada, TABLERO_MAQUINA);
+        if (jugadaCorrecta == true) {
+            colocarJugada(jugada, TABLERO_MAQUINA, tipoFicha);
+            if (revisarGanador(TABLERO_MAQUINA) == true) 
+                //Retorno la jugada ganadora
                 return jugada;
         }
     }
+    //Si no se encuentra casilla ganadora retorno -1
     return -1;
 }
 
-void colocarMensaje(int tipoMensaje){
-    gotoxy(18,2);
+void colocarMensaje(int tipoMensaje) {
+    gotoxy(18, 2);
     if (tipoMensaje == 1)
         cout << "EL JUGADOR 1 ES EL GANADOR";
     else if (tipoMensaje == 2)
         cout << "EL JUGADOR 2 ES EL GANADOR";
     else if (tipoMensaje == 3)
         cout << "JUEGO EMPATADO";
-    cout << endl;    
-    gotoxy(0,8);
+    cout << endl;
+    gotoxy(0, 8);
 }
