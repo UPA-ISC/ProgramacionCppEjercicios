@@ -28,6 +28,7 @@ int obtenerMejorJugada();
 void crearTableroPrueba();
 int existeCasillaGanadora(string);
 void colocarMensaje(int);
+void darBienvenida();
 
 char tablero[3][3] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
 char tableroPrueba[3][3];
@@ -36,10 +37,13 @@ int turnoJugador = 0;
 int main() {
     string tipoContrincante;
     int seleccion;
+
+    darBienvenida();
     do {
         cout << "Selecciona si jugarás contra la máquina o un humano: " << endl;
         cout << "1) Máquina" << endl;
         cout << "2) Humano" << endl;
+        cout << "Tu selección es: ";
         cin >> seleccion;
 
         if (seleccion == 1)
@@ -62,7 +66,7 @@ void jugarGato(string contrincante) {
     string jugador;
     string jugadorGanador = "No_ganador";
 
-    construirTablero(1, 1);
+    construirTablero(6, 2);
     while (turnoJugador < 9 && ganador == false) {
         if (turnoJugador % 2 == 0)
             jugador = HUMANO;
@@ -78,7 +82,7 @@ void jugarGato(string contrincante) {
             colocarJugada(jugada, HUMANO, TABLERO_REAL);
             ganador = revisarGanador(HUMANO);
             system("clear");
-            construirTablero(1, 1);
+            construirTablero(6, 2);
             if (ganador) {
                 colocarMensaje(turnoJugador % 2 + 1);
             }
@@ -348,4 +352,16 @@ void colocarMensaje(int tipoMensaje) {
         cout << "JUEGO EMPATADO";
     cout << endl;
     gotoxy(0, 8);
+}
+
+void darBienvenida(){
+    int longitud = 50;
+    for (int row = 0; row < longitud; row++)
+        cout<< "-";
+    cout << endl; 
+    cout << "       BIENVENIDO AL JUEGO DEL GATO"<< endl;
+    for (int row = 0; row < longitud; row++)
+        cout<< "-";
+    cout << endl;   
+    
 }
