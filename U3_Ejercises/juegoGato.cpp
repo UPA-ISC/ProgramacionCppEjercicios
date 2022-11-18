@@ -4,6 +4,7 @@ Fecha: 20/10/22
 Descripcion: Juego de gato
 */
 #include <iostream>
+#include <unistd.h>
 
 using namespace std;
 
@@ -358,8 +359,11 @@ void darBienvenida(){
     int longitud = 50;
     for (int row = 0; row < longitud; row++)
         cout<< "-";
+        
     cout << endl; 
+    sleep(1);
     cout << "       BIENVENIDO AL JUEGO DEL GATO"<< endl;
+    sleep(1);
     for (int row = 0; row < longitud; row++)
         cout<< "-";
     cout << endl;   
