@@ -90,3 +90,4 @@ void parpadearBanner(int xO, int yO, int parpadeos, int tiempo){
     }
     
 }
+
