@@ -5,6 +5,7 @@ Descripcion: Juego de gato
 */
 #include <iostream>
 #include <unistd.h>
+#include "presentacion.h"
 
 using namespace std;
 
@@ -13,10 +14,6 @@ const string HUMANO = "HUMANO";
 const string TABLERO_REAL = "HUMANO";
 const string TABLERO_MAQUINA = "PC";
 
-void gotoxy(int x, int y) {
-    // Coloca el cursor en la posicion (x,y)
-    cout << "\033[" << y << ";" << x << "f";
-}
 
 void construirTablero(int, int);
 char obtenerJugada(string);
@@ -29,7 +26,7 @@ int obtenerMejorJugada();
 void crearTableroPrueba();
 int existeCasillaGanadora(string);
 void colocarMensaje(int);
-void darBienvenida();
+
 
 char tablero[3][3] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
 char tableroPrueba[3][3];
@@ -39,7 +36,17 @@ int main() {
     string tipoContrincante;
     int seleccion;
 
-    darBienvenida();
+    //Animación para entrada del juego
+    animarBanner(4,3,30);
+    //mostrarBanner(4,3);
+    mostrarLinea(30,2,70);
+    mostrarLinea(30,8,70);
+    parpadearBanner(34,3,3, 500000);
+    mostrarLinea(30,2,70);
+    mostrarLinea(30,8,70);
+    cout << endl;
+
+    
     do {
         cout << "Selecciona si jugarás contra la máquina o un humano: " << endl;
         cout << "1) Máquina" << endl;
@@ -355,17 +362,3 @@ void colocarMensaje(int tipoMensaje) {
     gotoxy(0, 8);
 }
 
-void darBienvenida(){
-    int longitud = 50;
-    for (int row = 0; row < longitud; row++)
-        cout<< "-";
-        
-    cout << endl; 
-    sleep(1);
-    cout << "       BIENVENIDO AL JUEGO DEL GATO"<< endl;
-    sleep(1);
-    for (int row = 0; row < longitud; row++)
-        cout<< "-";
-    cout << endl;   
-    
-}
