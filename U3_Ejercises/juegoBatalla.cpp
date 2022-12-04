@@ -49,7 +49,7 @@ int main() {
     srand(time(0));
 
     // poner barcos aleatorios para usuario
-    pedirBarcos(1, 0);
+    pedirBarcos(0, 0);
 
     // poner barcos aleatorios para maquina
     pedirBarcos(1, 1);

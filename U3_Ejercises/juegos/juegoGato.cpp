@@ -3,8 +3,10 @@ Autor: Luis Ernesto Anaya Tiscareño
 Fecha: 20/10/22
 Descripcion: Juego de gato
 */
-#include <iostream>
 #include <unistd.h>
+
+#include <iostream>
+
 #include "presentacion.h"
 
 using namespace std;
@@ -20,7 +22,6 @@ const int posBannerY = 3;
 const int posMensajeX = 80;
 const int posMensajeY = 10;
 
-
 void construirTablero(int, int);
 char obtenerJugada(string);
 bool revisarJugadasPosibles(int, int, string);
@@ -34,7 +35,6 @@ int existeCasillaGanadora(string);
 void colocarMensaje(int);
 void darBienvenida();
 
-
 char tablero[3][3] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
 char tableroPrueba[3][3];
 int turnoJugador = 0;
@@ -43,16 +43,15 @@ int main() {
     string tipoContrincante;
     int seleccion;
     darBienvenida();
-    
-    
+
     do {
-        gotoxy(40,10);
+        gotoxy(40, 10);
         cout << "Selecciona si jugarás contra la máquina o un humano: " << endl;
-        gotoxy(40,11);
+        gotoxy(40, 11);
         cout << "1) Máquina" << endl;
-        gotoxy(40,12);
+        gotoxy(40, 12);
         cout << "2) Humano" << endl;
-        gotoxy(40,13);
+        gotoxy(40, 13);
         cout << "Tu selección es: ";
         cin >> seleccion;
 
@@ -68,7 +67,7 @@ int main() {
     jugarGato(tipoContrincante);
     getchar();
     getchar();
-        system("clear");
+    system("clear");
     return 0;
 }
 
@@ -78,7 +77,7 @@ void jugarGato(string contrincante) {
     bool jugadaCorrecta;
     string jugador;
     string jugadorGanador = "No_ganador";
-    mostrarBanner(posBannerX,posBannerY);
+    mostrarBanner(posBannerX, posBannerY);
 
     construirTablero(posTableroX, posTableroY);
     while (turnoJugador < 9 && ganador == false) {
@@ -89,14 +88,14 @@ void jugarGato(string contrincante) {
         }
 
         jugada = obtenerJugada(jugador);
-        //Reviso la jugada en tablero real
+        // Reviso la jugada en tablero real
         jugadaCorrecta = revisarJugada(jugada, TABLERO_REAL);
-       
+
         if (jugadaCorrecta == true) {
             colocarJugada(jugada, HUMANO, TABLERO_REAL);
             ganador = revisarGanador(HUMANO);
             system("clear");
-            mostrarBanner(posBannerX,posBannerY);
+            mostrarBanner(posBannerX, posBannerY);
             construirTablero(posTableroX, posTableroY);
             if (ganador) {
                 colocarMensaje(turnoJugador % 2 + 1);
@@ -138,7 +137,7 @@ char obtenerJugada(string jugador) {
 
     int jugada;
     if (jugador == HUMANO) {
-        gotoxy(55,16);
+        gotoxy(55, 16);
         cout << "Selecciona tu jugada: ";
         cin >> jugada;
     } else if (jugador == MAQUINA) {
@@ -244,36 +243,28 @@ bool revisarGanador(string jugador) {
     bool existeGanador = false;
 
     if (jugador == HUMANO) {
-        if (tablero[0][0] != ' ' && 
-            tablero[0][1] == tablero[0][0] &&
+        if (tablero[0][0] != ' ' && tablero[0][1] == tablero[0][0] &&
             tablero[0][2] == tablero[0][0])
             existeGanador = true;
-        else if (tablero[1][0] != ' ' && 
-                 tablero[1][1] == tablero[1][0] &&
+        else if (tablero[1][0] != ' ' && tablero[1][1] == tablero[1][0] &&
                  tablero[1][2] == tablero[1][0])
             existeGanador = true;
-        else if (tablero[2][0] != ' ' && 
-                 tablero[2][1] == tablero[2][0] &&
+        else if (tablero[2][0] != ' ' && tablero[2][1] == tablero[2][0] &&
                  tablero[2][2] == tablero[2][0])
             existeGanador = true;
-        else if (tablero[0][0] != ' ' && 
-                 tablero[1][0] == tablero[0][0] &&
+        else if (tablero[0][0] != ' ' && tablero[1][0] == tablero[0][0] &&
                  tablero[2][0] == tablero[0][0])
             existeGanador = true;
-        else if (tablero[0][1] != ' ' && 
-                 tablero[1][1] == tablero[0][1] &&
+        else if (tablero[0][1] != ' ' && tablero[1][1] == tablero[0][1] &&
                  tablero[2][1] == tablero[0][1])
             existeGanador = true;
-        else if (tablero[0][2] != ' ' && 
-                 tablero[1][2] == tablero[0][2] &&
+        else if (tablero[0][2] != ' ' && tablero[1][2] == tablero[0][2] &&
                  tablero[2][2] == tablero[0][2])
             existeGanador = true;
-        else if (tablero[0][0] != ' ' && 
-                 tablero[1][1] == tablero[0][0] &&
+        else if (tablero[0][0] != ' ' && tablero[1][1] == tablero[0][0] &&
                  tablero[2][2] == tablero[0][0])
             existeGanador = true;
-        else if (tablero[0][2] != ' ' && 
-                 tablero[1][1] == tablero[0][2] &&
+        else if (tablero[0][2] != ' ' && tablero[1][1] == tablero[0][2] &&
                  tablero[2][0] == tablero[0][2])
             existeGanador = true;
         else
@@ -328,10 +319,10 @@ int obtenerMejorJugada() {
     int jugada;
 
     // Revisar si PC puede ganar
-    jugada = existeCasillaGanadora( MAQUINA);
+    jugada = existeCasillaGanadora(MAQUINA);
     if (jugada != -1) return jugada;
     // Revisar si humano puede ganar
-    jugada = existeCasillaGanadora( HUMANO);
+    jugada = existeCasillaGanadora(HUMANO);
     if (jugada != -1) return jugada;
     return 1 + rand() % 9;
 }
@@ -349,12 +340,12 @@ int existeCasillaGanadora(string tipoFicha) {
         jugadaCorrecta = revisarJugada(jugada, TABLERO_MAQUINA);
         if (jugadaCorrecta == true) {
             colocarJugada(jugada, TABLERO_MAQUINA, tipoFicha);
-            if (revisarGanador(TABLERO_MAQUINA) == true) 
-                //Retorno la jugada ganadora
+            if (revisarGanador(TABLERO_MAQUINA) == true)
+                // Retorno la jugada ganadora
                 return jugada;
         }
     }
-    //Si no se encuentra casilla ganadora retorno -1
+    // Si no se encuentra casilla ganadora retorno -1
     return -1;
 }
 
@@ -367,18 +358,18 @@ void colocarMensaje(int tipoMensaje) {
     else if (tipoMensaje == 3)
         cout << "JUEGO EMPATADO";
     cout << endl;
-    gotoxy(posMensajeX, posMensajeY+1);
+    gotoxy(posMensajeX, posMensajeY + 1);
     cout << "PRESIONE ENTER PARA TERMINAR EL JUEGO";
 }
 
-void darBienvenida(){
-    //Animación para entrada del juego
-    animarBanner(4,3,30);
-    //mostrarBanner(4,3);
-    mostrarLinea(30,2,70);
-    mostrarLinea(30,8,70);
-    parpadearBanner(34,3,3, 500000);
-    mostrarLinea(30,2,70);
-    mostrarLinea(30,8,70);
+void darBienvenida() {
+    // Animación para entrada del juego
+    animarBanner(4, 3, 30);
+    // mostrarBanner(4,3);
+    mostrarLinea(30, 2, 70);
+    mostrarLinea(30, 8, 70);
+    parpadearBanner(34, 3, 3, 500000);
+    mostrarLinea(30, 2, 70);
+    mostrarLinea(30, 8, 70);
     cout << endl;
 }
